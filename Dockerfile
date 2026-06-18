@@ -11,14 +11,17 @@ COPY . .
 # 3. Movernos al frontend
 WORKDIR /app/frontend
 
-# 4. Instalar dependencias sin bloqueos estrictos
+# 4. LIMPIEZA RADICAL: Borrar cualquier rastro de lockfiles corruptos antes de instalar
+RUN rm -rf pnpm-lock.yaml node_modules
+
+# 5. Instalar dependencias desde cero de forma limpia
 RUN pnpm install --no-frozen-lockfile
 
-# 5. Compilar el proyecto
+# 6. Compilar el proyecto
 RUN pnpm run build
 
-# 6. Exponer el puerto
+# 7. Exponer el puerto
 EXPOSE 3000
 
-# 7. Arrancar usando el script nativo que creamos en el package.json
+# 8. Arrancar usando el script nativo del package.json
 CMD ["pnpm", "run", "preview:railway"]
