@@ -1,14 +1,14 @@
 FROM node:20-slim
 
-# 1. Instalar pnpm de forma global y segura
+# 1. Instalar pnpm de forma global
 RUN npm install -g pnpm
 
 WORKDIR /app
 
-# 2. Copiar absolutamente todo el repositorio al contenedor
+# 2. Copiar absolutamente todo el repositorio
 COPY . .
 
-# 3. Movernos directamente a la subcarpeta del frontend para trabajar ahí
+# 3. Movernos directamente a la subcarpeta del frontend
 WORKDIR /app/frontend
 
 # 4. Instalar las dependencias ignorando bloqueos estrictos
@@ -20,5 +20,5 @@ RUN pnpm run build
 # 6. Exponer el puerto de producción
 EXPOSE 3000
 
-# 7. Arrancar el servidor de producción usando scripts de npm nativos
-CMD pnpm exec vite preview --host 0.0.0.0 --port 3000
+# 7. Arrancar el servidor llamando al binario directo de Vite sin intermediarios
+CMD ["./node_modules/.bin/vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
