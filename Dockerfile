@@ -11,7 +11,7 @@ WORKDIR /app/frontend
 
 RUN pnpm install --no-frozen-lockfile
 
-# Copiar el resto del código
+# Copiar el resto del código v
 WORKDIR /app
 COPY . .
 
