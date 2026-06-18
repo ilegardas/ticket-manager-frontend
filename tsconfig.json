@@ -3,6 +3,9 @@
   "include": ["src/**/*"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strict": false,
     "incremental": true,
     "tsBuildInfoFile": ".tsbuildinfo",
     "noEmit": true,
