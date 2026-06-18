@@ -20,5 +20,5 @@ RUN pnpm run build
 # 6. Exponer el puerto de producción
 EXPOSE 3000
 
-# 7. Arrancar el servidor de producción de Vite
-CMD ["pnpm", "exec", "vite", "preview", "--host", "0.0.0.0", "--port", "3000"]
+# 7. Arrancar el servidor de producción usando scripts de npm nativos
+CMD pnpm exec vite preview --host 0.0.0.0 --port 3000
