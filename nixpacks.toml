@@ -1,0 +1,14 @@
+[providers]
+node = { }
+
+[phases.setup]
+nixPkgs = ["pnpm", "nodejs"]
+
+[phases.install]
+cmds = ["pnpm install --no-frozen-lockfile"]
+
+[phases.build]
+cmds = ["pnpm run build"]
+
+[start]
+cmd = "pnpm exec vite preview --host 0.0.0.0 --port 3000"
