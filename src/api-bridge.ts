@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-// ⚠️ Recuerda ajustar tu URL real del Backend de Railway
-const BACKEND_URL = "https://ticket-manager-production-9d0b.up.railway.app";
+// ⚠️ Pon aquí tu URL real del Backend de Railway
+const BACKEND_URL = "https://ticket-manager-production-tu-subdominio.up.railway.app";
 
 const fetcher = async (endpoint: string, options: any = {}) => {
   const token = localStorage.getItem('auth_token');
@@ -56,7 +56,7 @@ const proxyHandler = {
 };
 const proxy = new Proxy({}, proxyHandler);
 
-// 3. EXPORTACIONES EXPLÍCITAS (Dashboard & Reportes)
+// 3. Dashboard & Reportes
 export const useGetReporteResumen = (options?: any) => proxy.useGetReporteResumen(options);
 export const useGetActividadReciente = (options?: any) => proxy.useGetActividadReciente(options);
 export const useGetReportePorEstado = (options?: any) => proxy.useGetReportePorEstado(options);
@@ -69,21 +69,36 @@ export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
 
-// 4. EXPORTACIONES EXPLÍCITAS (TicketList & Catálogos exigidos ahora)
+// 4. TicketList & Catálogos Comunes
 export const useListTickets = (options?: any) => proxy.useListTickets(options);
 export const useRemindTicket = () => proxy.useRemindTicket();
 export const useListEstados = (options?: any) => proxy.useListEstados(options);
 export const useListPrioridades = (options?: any) => proxy.useListPrioridades(options);
 export const useListSistemas = (options?: any) => proxy.useListSistemas(options);
 export const useListCategorias = (options?: any) => proxy.useListCategorias(options);
+export const useListModulos = (options?: any) => proxy.useListModulos(options);
 
 export const getListTicketsQueryKey = () => ['useListTickets'];
 export const getListEstadosQueryKey = () => ['useListEstados'];
 export const getListPrioridadesQueryKey = () => ['useListPrioridades'];
 export const getListSistemasQueryKey = () => ['useListSistemas'];
 export const getListCategoriasQueryKey = () => ['useListCategorias'];
+export const getListModulosQueryKey = () => ['useListModulos'];
 
-// Operaciones comunes individuales de soporte
+// 5. TicketDetail & Chatter (Exigidos ahora)
+export const useGetTicket = (id: any) => proxy.useGetTicket(id);
+export const useUpdateTicket = () => proxy.useUpdateTicket();
+export const useDeleteTicket = () => proxy.useDeleteTicket();
+export const useListChatter = (id: any) => proxy.useListChatter(id);
+export const useAddChatter = () => proxy.useAddChatter();
+export const useListTimeLogs = (id: any) => proxy.useListTimeLogs(id);
+export const useReopenTicket = () => proxy.useReopenTicket();
+
+export const getGetTicketQueryKey = (id: any) => ['useGetTicket', id];
+export const getListChatterQueryKey = (id: any) => ['useListChatter', id];
+export const getListTimeLogsQueryKey = (id: any) => ['useListTimeLogs', id];
+
+// Operaciones globales adicionales
 export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
 export const useCreateTicket = () => proxy.useCreateTicket();
 export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
