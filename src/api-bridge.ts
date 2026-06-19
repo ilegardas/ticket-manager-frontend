@@ -56,21 +56,25 @@ const proxyHandler = {
 };
 const proxy = new Proxy({}, proxyHandler);
 
-// 3. Dashboard & Reportes
+// 3. Dashboard & Reportes Completos (Exigidos por Reportes.tsx)
 export const useGetReporteResumen = (options?: any) => proxy.useGetReporteResumen(options);
 export const useGetActividadReciente = (options?: any) => proxy.useGetActividadReciente(options);
 export const useGetReportePorEstado = (options?: any) => proxy.useGetReportePorEstado(options);
 export const useGetReportePorSistema = (options?: any) => proxy.useGetReportePorSistema(options);
 export const useGetReporteTendencias = (options?: any) => proxy.useGetReporteTendencias(options);
+export const useGetReportePorPrioridad = (options?: any) => proxy.useGetReportePorPrioridad(options);
+export const useGetReporteSla = (options?: any) => proxy.useGetReporteSla(options);
+export const useGetReportePorRegion = (options?: any) => proxy.useGetReportePorRegion(options);
+export const useGetReporteTickets = (options?: any) => proxy.useGetReporteTickets(options);
 
 export const getGetReporteResumenQueryKey = () => ['useGetReporteResumen'];
 export const getGetActividadRecienteQueryKey = () => ['useGetActividadReciente'];
 export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
-
-// Reportes detallados adicionales (Exigidos por ReporteTickets.tsx)
-export const useGetReporteTickets = (options?: any) => proxy.useGetReporteTickets(options);
+export const getGetReportePorPrioridadQueryKey = () => ['useGetReportePorPrioridad'];
+export const getGetReporteSlaQueryKey = () => ['useGetReporteSla'];
+export const getGetReportePorRegionQueryKey = () => ['useGetReportePorRegion'];
 export const getGetReporteTicketsQueryKey = (options?: any) => ['useGetReporteTickets', options];
 
 // 4. TicketList & Catálogos (Consultas)
