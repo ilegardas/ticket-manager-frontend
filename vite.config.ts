@@ -46,8 +46,8 @@ export default defineConfig({
     },
   },
   preview: {
-    port,
-    strictPort: true, // OBLIGA A VITE PREVIEW A USAR EL PORT DE LNX
+    port: 8080, 
+    strictPort: true,
     host: "0.0.0.0",
     allowedHosts: true,
   },
