@@ -17,8 +17,14 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      // SOLUCIÓN PURA: Redirigir el paquete fantasma a un módulo JS virtual vacío
-      "@workspace/api-client-react": "data:text/javascript,export const setAuthTokenGetter = () => {}; export const api = {};",
+      // ENGAÑO EXPANDIDO: Simulamos los hooks reales que useAuth.tsx está buscando obligatoriamente
+      "@workspace/api-client-react": "data:text/javascript," + 
+        "export const setAuthTokenGetter = () => {}; " +
+        "export const api = {}; " +
+        "export const useLogin = () => ({ mutate: () => {}, isLoading: false }); " +
+        "export const useLogout = () => ({ mutate: () => {} }); " +
+        "export const useGetMe = () => ({ data: null, isLoading: false }); " +
+        "export const getGetMeQueryKey = () => ['getMe'];"
     },
     dedupe: ["react", "react-dom"],
   },
