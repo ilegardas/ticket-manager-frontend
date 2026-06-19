@@ -110,7 +110,7 @@ export const getListTimeLogsQueryKey = (id: any) => ['useListTimeLogs', id];
 
 // 6. Catálogos Avanzados (Sistemas en detalle y Documentación)
 export const useGetSistema = (id: any) => proxy.useGetSistema(id);
-export const useUpdateSistema = () => proxy.useUpdateSistema(); // Guardado aquí de forma única
+export const useUpdateSistema = () => proxy.useUpdateSistema();
 export const useListDocumentos = (options?: any) => proxy.useListDocumentos(options);
 export const useCreateDocumento = () => proxy.useCreateDocumento();
 export const useDeleteDocumento = () => proxy.useDeleteDocumento();
@@ -127,5 +127,42 @@ export const useDeleteConocimiento = () => proxy.useDeleteConocimiento();
 export const getListConocimientoQueryKey = (options?: any) => ['useListConocimiento', options];
 export const getGetConocimientoQueryKey = (id: any) => ['useGetConocimiento', id];
 
-// 8. Acciones de Configuración Completa (CRUD de Catálogos Básicos sin repetir useUpdateSistema)
-... (rest of response omitted for length)
+// 8. Acciones de Configuración Completa (CRUD de Catálogos Básicos)
+export const useCreateSistema = () => proxy.useCreateSistema();
+export const useDeleteSistema = () => proxy.useDeleteSistema();
+
+export const useCreateModulo = () => proxy.useCreateModulo();
+export const useUpdateModulo = () => proxy.useUpdateModulo();
+export const useDeleteModulo = () => proxy.useDeleteModulo();
+
+export const useCreateCategoria = () => proxy.useCreateCategoria();
+export const useUpdateCategoria = () => proxy.useUpdateCategoria();
+export const useDeleteCategoria = () => proxy.useDeleteCategoria();
+export const proxyDeleteCategoria = () => proxy.useDeleteCategoria();
+
+// 9. CRUD de Estados, Prioridades y Usuarios
+export const useCreateEstado = () => proxy.useCreateEstado();
+export const useUpdateEstado = () => proxy.useUpdateEstado();
+export const useDeleteEstado = () => proxy.useDeleteEstado();
+
+export const useCreatePrioridad = () => proxy.useCreatePrioridad();
+export const useUpdatePrioridad = () => proxy.useUpdatePrioridad();
+export const useDeletePrioridad = () => proxy.useDeletePrioridad();
+
+export const useCreateUsuario = () => proxy.useCreateUsuario();
+export const useUpdateUsuario = () => proxy.useUpdateUsuario();
+export const useDeleteUsuario = () => proxy.useDeleteUsuario();
+
+// 10. Métodos Globales Adicionales y fallbacks para compatibilidad
+export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
+export const useCreateTicket = () => proxy.useCreateTicket();
+export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
+
+export const useCreatePrioridades = () => proxy.useCreatePrioridad();
+export const useDeletePrioridades = () => proxy.useDeletePrioridad();
+export const useCreateCategorias = () => proxy.useCreateCategoria();
+export const useDeleteCategorias = () => proxy.useDeleteCategoria();
+export const useCreateEstados = () => proxy.useCreateEstado();
+export const useDeleteEstados = () => proxy.useDeleteEstado();
+
+export default proxy;
