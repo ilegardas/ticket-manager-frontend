@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-// ⚠️ Pon aquí tu URL real del Backend de Railway
+// Enlace real de producción de tu backend en Railway
 const BACKEND_URL = "https://ticket-manager-production-9d0b.up.railway.app";
 
 const fetcher = async (endpoint: string, options: any = {}) => {
@@ -31,7 +31,7 @@ export const useGetMe = () => useQuery({
 });
 export const getGetMeQueryKey = () => ['getMe'];
 
-// 2. Base dinámica para las peticiones interceptadas
+// 2. Base dinámica del Proxy Interceptor
 const dummyFn = () => ({ data: null, isLoading: false, mutate: () => {} });
 const proxyHandler = {
   get: (target: any, prop: string) => {
@@ -69,7 +69,7 @@ export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
 
-// 4. TicketList & Catálogos (Consultas)
+// 4. Listados & Catálogos Comunes
 export const useListTickets = (options?: any) => proxy.useListTickets(options);
 export const useRemindTicket = () => proxy.useRemindTicket();
 export const useListEstados = (options?: any) => proxy.useListEstados(options);
@@ -87,7 +87,7 @@ export const getListCategoriasQueryKey = () => ['useListCategorias'];
 export const getListModulosQueryKey = () => ['useListModulos'];
 export const getListUsuariosQueryKey = () => ['useListUsuarios'];
 
-// 5. TicketDetail & Chatter
+// 5. Gestión del Detalle (Tickets & Sistemas)
 export const useGetTicket = (id: any) => proxy.useGetTicket(id);
 export const useUpdateTicket = () => proxy.useUpdateTicket();
 export const useDeleteTicket = () => proxy.useDeleteTicket();
@@ -100,22 +100,11 @@ export const getGetTicketQueryKey = (id: any) => ['useGetTicket', id];
 export const getListChatterQueryKey = (id: any) => ['useListChatter', id];
 export const getListTimeLogsQueryKey = (id: any) => ['useListTimeLogs', id];
 
-// 6. MUTACIONES DE CATÁLOGOS (Añadidas de forma masiva para Sistemas, Módulos, Categorías, etc.)
-export const useCreateSistema = () => proxy.useCreateSistema();
-export const useDeleteSistema = () => proxy.useDeleteSistema();
-export const useCreateModulo = () => proxy.useCreateModulo();
-export const useDeleteModulo = () => proxy.useDeleteModulo();
-export const useCreateCategoria = () => proxy.useCreateCategoria();
-export const proxyDeleteCategoria = () => proxy.useDeleteCategoria(); // por compatibilidad
-export const useDeleteCategoria = () => proxy.useDeleteCategoria();
-export const useCreateEstado = () => proxy.useCreateEstado();
-export const useDeleteEstado = () => proxy.useDeleteEstado();
-export const useCreatePrioridad = () => proxy.useCreatePrioridad();
-export const useDeletePrioridad = () => proxy.useDeletePrioridad();
+export const useGetSistema = (id: any) => proxy.useGetSistema(id);
+export const useUpdateSistema = () => proxy.useUpdateSistema();
+export const useListDocumentos = (options?: any) => proxy.useListDocumentos(options);
+export const useCreateDocumento = () => proxy.useCreateDocumento();
+export const useDeleteDocumento = () => proxy.useDeleteDocumento();
 
-// Operaciones globales adicionales
-export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
-export const useCreateTicket = () => proxy.useCreateTicket();
-export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
-
-export default proxy;
+export const getGetSistemaQueryKey = (id: any) => ['useGetSistema', id];
+export const getListDocumentosQueryKey = (options?: any) =>
