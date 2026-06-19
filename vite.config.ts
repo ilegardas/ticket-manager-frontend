@@ -3,6 +3,8 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
+// Railway inyecta el puerto dinámico en process.env.PORT. 
+// Si no existe (como en local), usamos el 3000.
 const port = Number(process.env.PORT) || 3000;
 const basePath = process.env.BASE_PATH || "/";
 
@@ -17,7 +19,6 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      // ALIAS LIMPIO: Redirigimos el paquete fantasma a nuestro nuevo archivo local
       "@workspace/api-client-react": path.resolve(import.meta.dirname, "src/api-bridge.ts"),
     },
     dedupe: ["react", "react-dom"],
@@ -30,7 +31,8 @@ export default defineConfig({
       external: [
         '**/*.node',
         /@tailwindcss\/oxide/,
-        'fsevents'
+        'fsevents',
+        '@workspace/api-client-react' // FORZAMOS A ROLLUP A IGNORARLO EN EL BUILD
       ]
     }
   },
@@ -45,6 +47,7 @@ export default defineConfig({
   },
   preview: {
     port,
+    strictPort: true, // OBLIGA A VITE PREVIEW A USAR EL PORT DE LNX
     host: "0.0.0.0",
     allowedHosts: true,
   },
