@@ -17,7 +17,6 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      // Vinculamos el paquete fantasma directo a nuestro puente de conexión local
       "@workspace/api-client-react": path.resolve(import.meta.dirname, "src/api-bridge.ts"),
     },
     dedupe: ["react", "react-dom"],
@@ -27,12 +26,17 @@ export default defineConfig({
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
     rollupOptions: {
-      // 📂 AQUÍ QUITAMOS EL ALIAS DE LOS EXTERNOS PARA QUE SE INCLUYA EN EL BUNDLE FINAL
       external: [
         '**/*.node',
         /@tailwindcss\/oxide/,
         'fsevents'
-      ]
+      ],
+      // 🔄 ESTO OBLIGA A GENERAR UN NOMBRE DE JAVASCRIPT COMPLETAMENTE NUEVO EN CADA BUILD
+      output: {
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash].[ext]'
+      }
     }
   },
   server: {
