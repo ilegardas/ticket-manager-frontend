@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-// ⚠️ Pon aquí tu URL real del Backend de Railway
+// ⚠️ Recuerda mantener tu URL real del Backend de Railway
 const BACKEND_URL = "https://ticket-manager-production-tu-subdominio.up.railway.app";
 
 const fetcher = async (endpoint: string, options: any = {}) => {
@@ -77,6 +77,7 @@ export const useListPrioridades = (options?: any) => proxy.useListPrioridades(op
 export const useListSistemas = (options?: any) => proxy.useListSistemas(options);
 export const useListCategorias = (options?: any) => proxy.useListCategorias(options);
 export const useListModulos = (options?: any) => proxy.useListModulos(options);
+export const useListUsuarios = (options?: any) => proxy.useListUsuarios(options); // 👈 AGREGADO
 
 export const getListTicketsQueryKey = () => ['useListTickets'];
 export const getListEstadosQueryKey = () => ['useListEstados'];
@@ -84,8 +85,9 @@ export const getListPrioridadesQueryKey = () => ['useListPrioridades'];
 export const getListSistemasQueryKey = () => ['useListSistemas'];
 export const getListCategoriasQueryKey = () => ['useListCategorias'];
 export const getListModulosQueryKey = () => ['useListModulos'];
+export const getListUsuariosQueryKey = () => ['useListUsuarios']; // 👈 AGREGADO
 
-// 5. TicketDetail & Chatter (Exigidos ahora)
+// 5. TicketDetail & Chatter
 export const useGetTicket = (id: any) => proxy.useGetTicket(id);
 export const useUpdateTicket = () => proxy.useUpdateTicket();
 export const useDeleteTicket = () => proxy.useDeleteTicket();
