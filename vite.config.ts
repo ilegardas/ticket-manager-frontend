@@ -17,7 +17,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      "@workspace/api-client-react": path.resolve(import.meta.dirname, "vite.config.ts"),
+      // SOLUCIÓN PURA: Redirigir el paquete fantasma a un módulo JS virtual vacío
+      "@workspace/api-client-react": "data:text/javascript,export const setAuthTokenGetter = () => {}; export const api = {};",
     },
     dedupe: ["react", "react-dom"],
   },
@@ -29,7 +30,7 @@ export default defineConfig({
       external: [
         '**/*.node',
         /@tailwindcss\/oxide/,
-        'fsevents' // IGNORAR FSEVENTS EN LINUX
+        'fsevents'
       ]
     }
   },
