@@ -17,14 +17,19 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      // ENGAÑO EXPANDIDO: Simulamos los hooks reales que useAuth.tsx está buscando obligatoriamente
+      // MOCK DE PROXY GLOBAL: Responde automáticamente a cualquier hook o queryKey de Replit que la app pida
       "@workspace/api-client-react": "data:text/javascript," + 
         "export const setAuthTokenGetter = () => {}; " +
         "export const api = {}; " +
-        "export const useLogin = () => ({ mutate: () => {}, isLoading: false }); " +
-        "export const useLogout = () => ({ mutate: () => {} }); " +
-        "export const useGetMe = () => ({ data: null, isLoading: false }); " +
-        "export const getGetMeQueryKey = () => ['getMe'];"
+        "const dummyFn = () => ({ data: null, isLoading: false, mutate: () => {} }); " +
+        "const proxy = new Proxy({}, { get: () => dummyFn }); " +
+        "export default proxy; " +
+        "export const { " +
+        "  useLogin, useLogout, useGetMe, getGetMeQueryKey, " +
+        "  useGetReporteResumen, useGetActividadReciente, useGetReportePorEstado, " +
+        "  useGetReportePorSistema, useGetReporteTendencias, getGetReporteResumenQueryKey, " +
+        "  getGetActividadRecienteQueryKey, useGetTickets, useCreateTicket, useUpdateTicketStatus " +
+        "} = proxy;"
     },
     dedupe: ["react", "react-dom"],
   },
