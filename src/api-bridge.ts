@@ -15,7 +15,12 @@ const fetcher = async (endpoint: string, options: any = {}) => {
   return res.json();
 };
 
-export const setAuthTokenGetter = () => {};
+// 🛠️ Implementación real para evitar que esbuild la elimine en producción
+let tokenGetterFn = () => localStorage.getItem('auth_token');
+export const setAuthTokenGetter = (fn: any) => {
+  if (typeof fn === 'function') tokenGetterFn = fn;
+};
+
 export const api = {};
 
 // 1. Autenticación Básica Explícita
@@ -95,74 +100,4 @@ export const getListCategoriasQueryKey = () => ['useListCategorias'];
 export const getListModulosQueryKey = () => ['useListModulos'];
 export const getListUsuariosQueryKey = () => ['useListUsuarios'];
 
-// 5. TicketDetail, Chatter y Tiempos
-export const useGetTicket = (id: any) => proxy.useGetTicket(id);
-export const useUpdateTicket = () => proxy.useUpdateTicket();
-export const useDeleteTicket = () => proxy.useDeleteTicket();
-export const useListChatter = (id: any) => proxy.useListChatter(id);
-export const useAddChatter = () => proxy.useAddChatter();
-export const useListTimeLogs = (id: any) => proxy.useListTimeLogs(id);
-export const useReopenTicket = () => proxy.useReopenTicket();
-
-export const getGetTicketQueryKey = (id: any) => ['useGetTicket', id];
-export const getListChatterQueryKey = (id: any) => ['useListChatter', id];
-export const getListTimeLogsQueryKey = (id: any) => ['useListTimeLogs', id];
-
-// 6. Catálogos Avanzados (Sistemas en detalle y Documentación)
-export const useGetSistema = (id: any) => proxy.useGetSistema(id);
-export const useUpdateSistema = () => proxy.useUpdateSistema();
-export const useListDocumentos = (options?: any) => proxy.useListDocumentos(options);
-export const useCreateDocumento = () => proxy.useCreateDocumento();
-export const useDeleteDocumento = () => proxy.useDeleteDocumento();
-
-export const getGetSistemaQueryKey = (id: any) => ['useGetSistema', id];
-export const getListDocumentosQueryKey = (options?: any) => ['useListDocumentos', options];
-
-// 7. Base de Conocimiento
-export const useListConocimiento = (options?: any) => proxy.useListConocimiento(options);
-export const useCreateConocimiento = () => proxy.useCreateConocimiento();
-export const useGetConocimiento = (id: any) => proxy.useGetConocimiento(id);
-export const useDeleteConocimiento = () => proxy.useDeleteConocimiento();
-
-export const getListConocimientoQueryKey = (options?: any) => ['useListConocimiento', options];
-export const getGetConocimientoQueryKey = (id: any) => ['useGetConocimiento', id];
-
-// 8. Acciones de Configuración Completa (CRUD de Catálogos Básicos)
-export const useCreateSistema = () => proxy.useCreateSistema();
-export const useDeleteSistema = () => proxy.useDeleteSistema();
-
-export const useCreateModulo = () => proxy.useCreateModulo();
-export const useUpdateModulo = () => proxy.useUpdateModulo();
-export const useDeleteModulo = () => proxy.useDeleteModulo();
-
-export const useCreateCategoria = () => proxy.useCreateCategoria();
-export const useUpdateCategoria = () => proxy.useUpdateCategoria();
-export const useDeleteCategoria = () => proxy.useDeleteCategoria();
-export const proxyDeleteCategoria = () => proxy.useDeleteCategoria();
-
-// 9. CRUD de Estados, Prioridades y Usuarios
-export const useCreateEstado = () => proxy.useCreateEstado();
-export const useUpdateEstado = () => proxy.useUpdateEstado();
-export const useDeleteEstado = () => proxy.useDeleteEstado();
-
-export const useCreatePrioridad = () => proxy.useCreatePrioridad();
-export const useUpdatePrioridad = () => proxy.useUpdatePrioridad();
-export const useDeletePrioridad = () => proxy.useDeletePrioridad();
-
-export const useCreateUsuario = () => proxy.useCreateUsuario();
-export const useUpdateUsuario = () => proxy.useUpdateUsuario();
-export const useDeleteUsuario = () => proxy.useDeleteUsuario();
-
-// 10. Métodos Globales Adicionales y fallbacks para compatibilidad
-export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
-export const useCreateTicket = () => proxy.useCreateTicket();
-export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
-
-export const useCreatePrioridades = () => proxy.useCreatePrioridad();
-export const useDeletePrioridades = () => proxy.useDeletePrioridad();
-export const useCreateCategorias = () => proxy.useCreateCategoria();
-export const useDeleteCategorias = () => proxy.useDeleteCategoria();
-export const useCreateEstados = () => proxy.useCreateEstado();
-export const useDeleteEstados = () => proxy.useDeleteEstado();
-
-export default proxy;
+// 5.
