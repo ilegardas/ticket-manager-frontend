@@ -127,9 +127,8 @@ export const useDeleteConocimiento = () => proxy.useDeleteConocimiento();
 export const getListConocimientoQueryKey = (options?: any) => ['useListConocimiento', options];
 export const getGetConocimientoQueryKey = (id: any) => ['useGetConocimiento', id];
 
-// 8. Acciones de Configuración Completa (CRUD Completo de Catálogos exigidos por Catalogos.tsx)
+// 8. Acciones de Configuración Completa (CRUD de Catálogos Básicos)
 export const useCreateSistema = () => proxy.useCreateSistema();
-export const useUpdateSistema = () => proxy.useUpdateSistema();
 export const useDeleteSistema = () => proxy.useDeleteSistema();
 
 export const useCreateModulo = () => proxy.useCreateModulo();
@@ -137,16 +136,16 @@ export const useUpdateModulo = () => proxy.useUpdateModulo();
 export const useDeleteModulo = () => proxy.useDeleteModulo();
 
 export const useCreateCategoria = () => proxy.useCreateCategoria();
-export const useUpdateCategoria = () => proxy.useUpdateCategoria(); // 👈 AGREGADO
+export const useUpdateCategoria = () => proxy.useUpdateCategoria();
 export const useDeleteCategoria = () => proxy.useDeleteCategoria();
 export const proxyDeleteCategoria = () => proxy.useDeleteCategoria();
 
 export const useCreateEstado = () => proxy.useCreateEstado();
-export const useUpdateEstado = () => proxy.useUpdateEstado(); // 👈 AGREGADO
+export const useUpdateEstado = () => proxy.useUpdateEstado();
 export const useDeleteEstado = () => proxy.useDeleteEstado();
 
 export const useCreatePrioridad = () => proxy.useCreatePrioridad();
-export const useUpdatePrioridad = () => proxy.useUpdatePrioridad(); // 👈 AGREGADO
+export const useUpdatePrioridad = () => proxy.useUpdatePrioridad();
 export const useDeletePrioridad = () => proxy.useDeletePrioridad();
 
 // 9. CRUD de Usuarios
