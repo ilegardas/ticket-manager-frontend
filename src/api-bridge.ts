@@ -1,7 +1,7 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
 // ⚠️ Recuerda ajustar tu URL real del Backend de Railway
-const BACKEND_URL = "https://ticket-manager-production-tu-subdominio.up.railway.app";
+const BACKEND_URL = "https://ticket-manager-production-9d0b.up.railway.app";
 
 const fetcher = async (endpoint: string, options: any = {}) => {
   const token = localStorage.getItem('auth_token');
