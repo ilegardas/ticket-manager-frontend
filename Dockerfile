@@ -20,9 +20,8 @@ RUN pnpm install --no-frozen-lockfile
 # 6. Compilar el proyecto de forma directa
 RUN pnpm run build
 
-# 7. Exponer el puerto predeterminado (Informativo para Docker)
+# 7. Exponer el puerto
 EXPOSE 3000
 
-# 8. ARRANQUE FORZADO: Usamos la ejecución mediante "sh -c" para asegurar 
-# que Linux inyecte la variable $PORT dinámica de Railway directamente a Vite
-CMD ["sh", "-c", "pnpm vite preview --host 0.0.0.0 --port $PORT"]
+# 8. Arrancar usando el script original
+CMD ["pnpm", "run", "preview:railway"]
