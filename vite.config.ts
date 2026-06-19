@@ -12,7 +12,6 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
-  // 1. Indicarle a Vite que trate los archivos .node como recursos estáticos y no como código JS
   assetsInclude: ['**/*.node'],
   resolve: {
     alias: {
@@ -26,11 +25,11 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
-    // 2. Excluir explícitamente el binario de Rust de Rollup para que no intente leerlo
     rollupOptions: {
       external: [
         '**/*.node',
-        /@tailwindcss\/oxide/
+        /@tailwindcss\/oxide/,
+        'fsevents' // IGNORAR FSEVENTS EN LINUX
       ]
     }
   },
