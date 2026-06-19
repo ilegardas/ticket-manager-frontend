@@ -69,6 +69,10 @@ export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
 
+// Reportes detallados adicionales (Exigidos por ReporteTickets.tsx)
+export const useGetReporteTickets = (options?: any) => proxy.useGetReporteTickets(options);
+export const getGetReporteTicketsQueryKey = (options?: any) => ['useGetReporteTickets', options];
+
 // 4. TicketList & Catálogos (Consultas)
 export const useListTickets = (options?: any) => proxy.useListTickets(options);
 export const useRemindTicket = () => proxy.useRemindTicket();
@@ -110,7 +114,7 @@ export const useDeleteDocumento = () => proxy.useDeleteDocumento();
 export const getGetSistemaQueryKey = (id: any) => ['useGetSistema', id];
 export const getListDocumentosQueryKey = (options?: any) => ['useListDocumentos', options];
 
-// 7. Base de Conocimiento (Exigidos ahora por Conocimiento.tsx)
+// 7. Base de Conocimiento
 export const useListConocimiento = (options?: any) => proxy.useListConocimiento(options);
 export const useCreateConocimiento = () => proxy.useCreateConocimiento();
 export const useGetConocimiento = (id: any) => proxy.useGetConocimiento(id);
@@ -132,7 +136,7 @@ export const useDeleteEstado = () => proxy.useDeleteEstado();
 export const useCreatePrioridad = () => proxy.useCreatePrioridad();
 export const useDeletePrioridad = () => proxy.useDeletePrioridad();
 
-// 9. CRUD de Usuarios 
+// 9. CRUD de Usuarios
 export const useCreateUsuario = () => proxy.useCreateUsuario();
 export const useUpdateUsuario = () => proxy.useUpdateUsuario();
 export const useDeleteUsuario = () => proxy.useDeleteUsuario();
