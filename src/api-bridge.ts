@@ -171,3 +171,5 @@ export const useCreateEstados = () => proxy.useCreateEstado();
 export const useDeleteEstados = () => proxy.useDeleteEstado();
 
 export default proxy;
+
+// Forzando refresco de build limpio en la nube de Railway - 2026
