@@ -31,7 +31,7 @@ export const useGetMe = () => useQuery({
 });
 export const getGetMeQueryKey = () => ['getMe'];
 
-// 2. Base dinámica del Proxy Interceptor
+// 2. Base dinámica para las peticiones interceptadas (Proxy)
 const dummyFn = () => ({ data: null, isLoading: false, mutate: () => {} });
 const proxyHandler = {
   get: (target: any, prop: string) => {
@@ -69,7 +69,7 @@ export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
 
-// 4. Listados & Catálogos Comunes
+// 4. TicketList & Catálogos (Consultas)
 export const useListTickets = (options?: any) => proxy.useListTickets(options);
 export const useRemindTicket = () => proxy.useRemindTicket();
 export const useListEstados = (options?: any) => proxy.useListEstados(options);
@@ -87,7 +87,7 @@ export const getListCategoriasQueryKey = () => ['useListCategorias'];
 export const getListModulosQueryKey = () => ['useListModulos'];
 export const getListUsuariosQueryKey = () => ['useListUsuarios'];
 
-// 5. Gestión del Detalle (Tickets & Sistemas)
+// 5. TicketDetail, Chatter y Tiempos
 export const useGetTicket = (id: any) => proxy.useGetTicket(id);
 export const useUpdateTicket = () => proxy.useUpdateTicket();
 export const useDeleteTicket = () => proxy.useDeleteTicket();
@@ -100,6 +100,7 @@ export const getGetTicketQueryKey = (id: any) => ['useGetTicket', id];
 export const getListChatterQueryKey = (id: any) => ['useListChatter', id];
 export const getListTimeLogsQueryKey = (id: any) => ['useListTimeLogs', id];
 
+// 6. Catálogos Avanzados (Sistemas en detalle y Documentación)
 export const useGetSistema = (id: any) => proxy.useGetSistema(id);
 export const useUpdateSistema = () => proxy.useUpdateSistema();
 export const useListDocumentos = (options?: any) => proxy.useListDocumentos(options);
@@ -107,4 +108,31 @@ export const useCreateDocumento = () => proxy.useCreateDocumento();
 export const useDeleteDocumento = () => proxy.useDeleteDocumento();
 
 export const getGetSistemaQueryKey = (id: any) => ['useGetSistema', id];
-export const getListDocumentosQueryKey = (options?: any) =>
+export const getListDocumentosQueryKey = (options?: any) => ['useListDocumentos', options];
+
+// 7. Acciones de Configuración (CRUD de Catálogos)
+export const useCreateSistema = () => proxy.useCreateSistema();
+export const useDeleteSistema = () => proxy.useDeleteSistema();
+export const useCreateModulo = () => proxy.useCreateModulo();
+export const useDeleteModulo = () => proxy.useDeleteModulo();
+export const useCreateCategoria = () => proxy.useCreateCategoria();
+export const useDeleteCategoria = () => proxy.useDeleteCategoria();
+export const proxyDeleteCategoria = () => proxy.useDeleteCategoria();
+export const useCreateEstado = () => proxy.useCreateEstado();
+export const useDeleteEstado = () => proxy.useDeleteEstado();
+export const useCreatePrioridad = () => proxy.useCreatePrioridad();
+export const useDeletePrioridad = () => proxy.useDeletePrioridad();
+
+// 8. Métodos Globales Adicionales y fallbacks para vistas secundarias
+export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
+export const useCreateTicket = () => proxy.useCreateTicket();
+export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
+
+export const useCreatePrioridades = () => proxy.useCreatePrioridad();
+export const useDeletePrioridades = () => proxy.useDeletePrioridad();
+export const useCreateCategorias = () => proxy.useCreateCategoria();
+export const useDeleteCategorias = () => proxy.useDeleteCategoria();
+export const useCreateEstados = () => proxy.useCreateEstado();
+export const useDeleteEstados = () => proxy.useDeleteEstado();
+
+export default proxy;
