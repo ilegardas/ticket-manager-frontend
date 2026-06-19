@@ -15,11 +15,14 @@ const fetcher = async (endpoint: string, options: any = {}) => {
   return res.json();
 };
 
-// 🛠️ Implementación real para evitar que esbuild la elimine en producción
+// 👑 BLINDAJE ABSOLUTO: La exponemos en el scope global y local al mismo tiempo
 let tokenGetterFn = () => localStorage.getItem('auth_token');
 export const setAuthTokenGetter = (fn: any) => {
   if (typeof fn === 'function') tokenGetterFn = fn;
 };
+if (typeof window !== 'undefined') {
+  (window as any).setAuthTokenGetter = setAuthTokenGetter;
+}
 
 export const api = {};
 
