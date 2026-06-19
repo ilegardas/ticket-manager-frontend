@@ -12,11 +12,12 @@ export default defineConfig({
     react(),
     tailwindcss()
   ],
+  // 1. Indicarle a Vite que trate los archivos .node como recursos estáticos y no como código JS
+  assetsInclude: ['**/*.node'],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
-      // ENGAÑO NATIVO: Redirigimos el paquete fantasma a un archivo que sí existe (el mismo config) para que no truene el build
       "@workspace/api-client-react": path.resolve(import.meta.dirname, "vite.config.ts"),
     },
     dedupe: ["react", "react-dom"],
@@ -25,6 +26,13 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    // 2. Excluir explícitamente el binario de Rust de Rollup para que no intente leerlo
+    rollupOptions: {
+      external: [
+        '**/*.node',
+        /@tailwindcss\/oxide/
+      ]
+    }
   },
   server: {
     port,
