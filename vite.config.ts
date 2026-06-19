@@ -3,7 +3,6 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import path from "path";
 
-// Si no existen en el entorno de compilación, asignamos valores por defecto estándar
 const port = Number(process.env.PORT) || 3000;
 const basePath = process.env.BASE_PATH || "/";
 
@@ -17,6 +16,8 @@ export default defineConfig({
     alias: {
       "@": path.resolve(import.meta.dirname, "src"),
       "@assets": path.resolve(import.meta.dirname, "src/assets"),
+      // ENGAÑO NATIVO: Redirigimos el paquete fantasma a un archivo que sí existe (el mismo config) para que no truene el build
+      "@workspace/api-client-react": path.resolve(import.meta.dirname, "vite.config.ts"),
     },
     dedupe: ["react", "react-dom"],
   },
