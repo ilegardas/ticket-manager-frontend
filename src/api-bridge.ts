@@ -56,7 +56,7 @@ const proxyHandler = {
 };
 const proxy = new Proxy({}, proxyHandler);
 
-// 3. Dashboard & Reportes Completos (Exigidos por Reportes.tsx)
+// 3. Dashboard & Reportes Completos
 export const useGetReporteResumen = (options?: any) => proxy.useGetReporteResumen(options);
 export const useGetActividadReciente = (options?: any) => proxy.useGetActividadReciente(options);
 export const useGetReportePorEstado = (options?: any) => proxy.useGetReportePorEstado(options);
@@ -127,17 +127,26 @@ export const useDeleteConocimiento = () => proxy.useDeleteConocimiento();
 export const getListConocimientoQueryKey = (options?: any) => ['useListConocimiento', options];
 export const getGetConocimientoQueryKey = (id: any) => ['useGetConocimiento', id];
 
-// 8. Acciones de Configuración (CRUD de Catálogos Básicos)
+// 8. Acciones de Configuración Completa (CRUD Completo de Catálogos exigidos por Catalogos.tsx)
 export const useCreateSistema = () => proxy.useCreateSistema();
+export const useUpdateSistema = () => proxy.useUpdateSistema();
 export const useDeleteSistema = () => proxy.useDeleteSistema();
+
 export const useCreateModulo = () => proxy.useCreateModulo();
+export const useUpdateModulo = () => proxy.useUpdateModulo();
 export const useDeleteModulo = () => proxy.useDeleteModulo();
+
 export const useCreateCategoria = () => proxy.useCreateCategoria();
+export const useUpdateCategoria = () => proxy.useUpdateCategoria(); // 👈 AGREGADO
 export const useDeleteCategoria = () => proxy.useDeleteCategoria();
 export const proxyDeleteCategoria = () => proxy.useDeleteCategoria();
+
 export const useCreateEstado = () => proxy.useCreateEstado();
+export const useUpdateEstado = () => proxy.useUpdateEstado(); // 👈 AGREGADO
 export const useDeleteEstado = () => proxy.useDeleteEstado();
+
 export const useCreatePrioridad = () => proxy.useCreatePrioridad();
+export const useUpdatePrioridad = () => proxy.useUpdatePrioridad(); // 👈 AGREGADO
 export const useDeletePrioridad = () => proxy.useDeletePrioridad();
 
 // 9. CRUD de Usuarios
@@ -145,7 +154,7 @@ export const useCreateUsuario = () => proxy.useCreateUsuario();
 export const useUpdateUsuario = () => proxy.useUpdateUsuario();
 export const useDeleteUsuario = () => proxy.useDeleteUsuario();
 
-// 10. Métodos Globales Adicionales y fallbacks para vistas secundarias
+// 10. Métodos Globales Adicionales y fallbacks para compatibilidad
 export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
 export const useCreateTicket = () => proxy.useCreateTicket();
 export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
