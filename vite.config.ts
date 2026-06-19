@@ -6,39 +6,93 @@ import path from "path";
 const port = Number(process.env.PORT) || 3000;
 const basePath = process.env.BASE_PATH || "/";
 
-// Plugin dinámico para inyectar el API Client Mock sin que Rollup valide exportaciones fijas
-const apiMockPlugin = () => {
-  const virtualModuleId = '@workspace/api-client-react';
-  return {
-    name: 'api-client-mock',
-    resolveId(id: string) {
-      if (id === virtualModuleId) return id;
-    },
-    load(id: string) {
-      if (id === virtualModuleId) {
-        return `
-          export const setAuthTokenGetter = () => {};
-          export const api = {};
-          const dummyFn = () => ({ data: null, isLoading: false, mutate: () => {} });
-          const handler = { get: () => dummyFn };
-          const proxy = new Proxy({}, handler);
-          export default proxy;
-          // Proxy en tiempo de evaluación para interceptar cualquier destructuración
-          new Proxy({}, {
-            get: (target, prop) => { return dummyFn; }
-          });
-        `;
-      }
-    }
-  };
-};
+// ⚠️ REEMPLAZA ESTA URL CON TU DOMINIO REAL DEL BACKEND DE RAILWAY
+const BACKEND_URL = "https://ticket-manager-production-9d0b.up.railway.app/";
 
 export default defineConfig({
   base: basePath,
   plugins: [
     react(),
     tailwindcss(),
-    // Forzamos a Vite/Rollup a externalizar de forma segura el módulo en producción
+    // INTERCEPTOR DINÁMICO CON CONEXIÓN HTTP REAL
+    {
+      name: 'api-client-live-bridge',
+      resolveId(id) {
+        if (id === '@workspace/api-client-react') return id;
+      },
+      load(id) {
+        if (id === '@workspace/api-client-react') {
+          return `
+            import { useQuery, useMutation } from '@tanstack/react-query';
+
+            const BACKEND_URL = "${BACKEND_URL}";
+
+            // Helper centralizado para hacer los fetch con el token de localStorage
+            const fetcher = async (endpoint, options = {}) => {
+              const token = localStorage.getItem('auth_token');
+              const headers = {
+                'Content-Type': 'application/json',
+                ...(token ? { 'Authorization': 'Bearer ' + token } : {}),
+                ...options.headers
+              };
+              const res = await fetch(BACKEND_URL + endpoint, { ...options, headers });
+              if (!res.ok) throw new Error('API Error status: ' + res.status);
+              return res.json();
+            };
+
+            export const setAuthTokenGetter = () => {};
+            export const api = {};
+
+            // 1. Mocks de Autenticación Reales con Fetch
+            export const useLogin = () => useMutation({
+              mutationFn: (data) => fetcher('/api/auth/login', { method: 'POST', body: JSON.stringify(data) })
+            });
+            export const useLogout = () => useMutation({
+              mutationFn: () => fetcher('/api/auth/logout', { method: 'POST' })
+            });
+            export const useGetMe = () => useQuery({
+              queryKey: ['getMe'],
+              queryFn: () => fetcher('/api/auth/me').catch(() => null)
+            });
+            export const getGetMeQueryKey = () => ['getMe'];
+
+            // 2. Interceptor dinámico Proxy para Dashboard, Reportes y cualquier otro Endpoint
+            const dummyFn = () => ({ data: null, isLoading: false, mutate: () => {} });
+            const proxyHandler = {
+              get: (target, prop) => {
+                // Si la app pide un QueryKey, regresamos su arreglo identificador
+                if (prop.endsWith('QueryKey')) {
+                  return () => [prop];
+                }
+                // Si pide un Hook de consulta (useGetReporte...), mapeamos automáticamente al endpoint
+                if (prop.startsWith('useGet')) {
+                  const endpoint = '/api/' + prop.replace('useGet', '').toLowerCase();
+                  return (options) => useQuery({
+                    queryKey: [prop, options],
+                    queryFn: () => fetcher(endpoint)
+                  });
+                }
+                // Si pide un Hook de mutación (useCreate, useUpdate...)
+                if (prop.startsWith('use')) {
+                  const endpoint = '/api/' + prop.replace('use', '').toLowerCase();
+                  return () => useMutation({
+                    mutationFn: (data) => fetcher(endpoint, { method: 'POST', body: JSON.stringify(data) })
+                  });
+                }
+                return dummyFn;
+              }
+            };
+
+            const proxy = new Proxy({}, proxyHandler);
+            export default proxy;
+
+            // Mantener destructuración feliz para el compilador
+            new Proxy({}, { get: () => dummyFn });
+          `;
+        }
+      }
+    },
+    // Excluir validación estricta de Rollup para el cliente virtual
     {
       name: 'externalize-api',
       options(options) {
