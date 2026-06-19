@@ -8,7 +8,7 @@
     "build": "vite build",
     "serve": "vite preview --config vite.config.ts --host 0.0.0.0",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "preview:railway": "vite preview --host 0.0.0.0 --port 3000"
+    "preview:railway": "sirv dist/public --host 0.0.0.0 --port $PORT --single"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -64,6 +64,7 @@
     "react-icons": "^5.4.0",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.2",
+    "sirv-cli": "^3.0.0",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "^4.0.0",
