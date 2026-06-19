@@ -110,7 +110,16 @@ export const useDeleteDocumento = () => proxy.useDeleteDocumento();
 export const getGetSistemaQueryKey = (id: any) => ['useGetSistema', id];
 export const getListDocumentosQueryKey = (options?: any) => ['useListDocumentos', options];
 
-// 7. Acciones de Configuración (CRUD de Catálogos Básicos)
+// 7. Base de Conocimiento (Exigidos ahora por Conocimiento.tsx)
+export const useListConocimiento = (options?: any) => proxy.useListConocimiento(options);
+export const useCreateConocimiento = () => proxy.useCreateConocimiento();
+export const useGetConocimiento = (id: any) => proxy.useGetConocimiento(id);
+export const useDeleteConocimiento = () => proxy.useDeleteConocimiento();
+
+export const getListConocimientoQueryKey = (options?: any) => ['useListConocimiento', options];
+export const getGetConocimientoQueryKey = (id: any) => ['useGetConocimiento', id];
+
+// 8. Acciones de Configuración (CRUD de Catálogos Básicos)
 export const useCreateSistema = () => proxy.useCreateSistema();
 export const useDeleteSistema = () => proxy.useDeleteSistema();
 export const useCreateModulo = () => proxy.useCreateModulo();
@@ -123,12 +132,12 @@ export const useDeleteEstado = () => proxy.useDeleteEstado();
 export const useCreatePrioridad = () => proxy.useCreatePrioridad();
 export const useDeletePrioridad = () => proxy.useDeletePrioridad();
 
-// 8. CRUD de Usuarios (Exigidos ahora por Usuarios.tsx)
+// 9. CRUD de Usuarios 
 export const useCreateUsuario = () => proxy.useCreateUsuario();
 export const useUpdateUsuario = () => proxy.useUpdateUsuario();
 export const useDeleteUsuario = () => proxy.useDeleteUsuario();
 
-// 9. Métodos Globales Adicionales y fallbacks para vistas secundarias
+// 10. Métodos Globales Adicionales y fallbacks para vistas secundarias
 export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
 export const useCreateTicket = () => proxy.useCreateTicket();
 export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
