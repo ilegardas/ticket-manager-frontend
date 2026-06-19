@@ -1,6 +1,6 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 
-// ⚠️ Pon aquí tu URL real del Backend de Railway
+// ⚠️ Recuerda ajustar tu URL real del Backend de Railway
 const BACKEND_URL = "https://ticket-manager-production-tu-subdominio.up.railway.app";
 
 const fetcher = async (endpoint: string, options: any = {}) => {
@@ -38,8 +38,8 @@ const proxyHandler = {
     if (prop.endsWith('QueryKey')) {
       return () => [prop];
     }
-    if (prop.startsWith('useGet')) {
-      const endpoint = '/api/' + prop.replace('useGet', '').toLowerCase();
+    if (prop.startsWith('useGet') || prop.startsWith('useList')) {
+      const endpoint = '/api/' + prop.replace('useGet', '').replace('useList', '').toLowerCase();
       return (options: any) => useQuery({
         queryKey: [prop, options],
         queryFn: () => fetcher(endpoint)
@@ -56,7 +56,7 @@ const proxyHandler = {
 };
 const proxy = new Proxy({}, proxyHandler);
 
-// 3. EXPORTACIONES EXPLÍCITAS: Satisface al validador estricto de Rollup para todas tus vistas
+// 3. EXPORTACIONES EXPLÍCITAS (Dashboard & Reportes)
 export const useGetReporteResumen = (options?: any) => proxy.useGetReporteResumen(options);
 export const useGetActividadReciente = (options?: any) => proxy.useGetActividadReciente(options);
 export const useGetReportePorEstado = (options?: any) => proxy.useGetReportePorEstado(options);
@@ -69,7 +69,21 @@ export const getGetReportePorEstadoQueryKey = () => ['useGetReportePorEstado'];
 export const getGetReportePorSistemaQueryKey = () => ['useGetReportePorSistema'];
 export const getGetReporteTendenciasQueryKey = () => ['useGetReporteTendencias'];
 
-// Otras mutaciones y consultas comunes de tickets que puedan pedir tus vistas
+// 4. EXPORTACIONES EXPLÍCITAS (TicketList & Catálogos exigidos ahora)
+export const useListTickets = (options?: any) => proxy.useListTickets(options);
+export const useRemindTicket = () => proxy.useRemindTicket();
+export const useListEstados = (options?: any) => proxy.useListEstados(options);
+export const useListPrioridades = (options?: any) => proxy.useListPrioridades(options);
+export const useListSistemas = (options?: any) => proxy.useListSistemas(options);
+export const useListCategorias = (options?: any) => proxy.useListCategorias(options);
+
+export const getListTicketsQueryKey = () => ['useListTickets'];
+export const getListEstadosQueryKey = () => ['useListEstados'];
+export const getListPrioridadesQueryKey = () => ['useListPrioridades'];
+export const getListSistemasQueryKey = () => ['useListSistemas'];
+export const getListCategoriasQueryKey = () => ['useListCategorias'];
+
+// Operaciones comunes individuales de soporte
 export const useGetTickets = (options?: any) => proxy.useGetTickets(options);
 export const useCreateTicket = () => proxy.useCreateTicket();
 export const useUpdateTicketStatus = () => proxy.useUpdateTicketStatus();
