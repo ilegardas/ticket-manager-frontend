@@ -40,6 +40,45 @@ const IMPACTO_LABEL: Record<string, string> = {
   mejora: "Requerimiento de Mejora",
 };
 
+// 🛡️ FUNCIÓN SALVAVIDAS: Evita que cualquier fecha nula o mal formateada tire la app
+function safeFormatDate(dateStr: any, formatPattern: string = "dd/MM/yyyy HH:mm"): string {
+  if (!dateStr) return "—";
+  try {
+    // Si viene con desfase -06:00, lo limpiamos a UTC plano (Z) para evitar fallos de parseISO
+    let cleanStr = String(dateStr);
+    if (cleanStr.includes('-') && cleanStr.split('-').length === 4) {
+      cleanStr = cleanStr.substring(0, cleanStr.lastIndexOf('-'));
+    } else if (cleanStr.includes('+')) {
+      cleanStr = cleanStr.split('+')[0];
+    }
+    if (!cleanStr.endsWith('Z')) cleanStr += 'Z';
+
+    const parsed = parseISO(cleanStr);
+    if (isNaN(parsed.getTime())) return "—"; // Si sigue siendo inválida, no truena
+    return format(parsed, formatPattern);
+  } catch (e) {
+    return "—";
+  }
+}
+
+// 🛡️ FUNCIÓN SALVAVIDAS PARA EL HISTORIAL (Chatter)
+function safeFormatDistance(dateStr: any): string {
+  if (!dateStr) return "hace un momento";
+  try {
+    let cleanStr = String(dateStr);
+    if (cleanStr.includes('-') && cleanStr.split('-').length === 4) {
+      cleanStr = cleanStr.substring(0, cleanStr.lastIndexOf('-'));
+    }
+    if (!cleanStr.endsWith('Z')) cleanStr += 'Z';
+
+    const parsed = parseISO(cleanStr);
+    if (isNaN(parsed.getTime())) return "hace un momento";
+    return formatDistanceToNow(parsed, { addSuffix: true, locale: es });
+  } catch (e) {
+    return "hace un momento";
+  }
+}
+
 function ChatterIcon({ tipo }: { tipo: string }) {
   if (tipo === "comentario") return <MessageSquare className="h-3.5 w-3.5 text-primary" />;
   if (tipo === "cambio_estado") return <GitBranch className="h-3.5 w-3.5 text-violet-500" />;
