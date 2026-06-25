@@ -44,7 +44,6 @@ const IMPACTO_LABEL: Record<string, string> = {
 function safeFormatDate(dateStr: any, formatPattern: string = "dd/MM/yyyy HH:mm"): string {
   if (!dateStr) return "—";
   try {
-    // Si viene con desfase -06:00, lo limpiamos a UTC plano (Z) para evitar fallos de parseISO
     let cleanStr = String(dateStr);
     if (cleanStr.includes('-') && cleanStr.split('-').length === 4) {
       cleanStr = cleanStr.substring(0, cleanStr.lastIndexOf('-'));
@@ -54,7 +53,7 @@ function safeFormatDate(dateStr: any, formatPattern: string = "dd/MM/yyyy HH:mm"
     if (!cleanStr.endsWith('Z')) cleanStr += 'Z';
 
     const parsed = parseISO(cleanStr);
-    if (isNaN(parsed.getTime())) return "—"; // Si sigue siendo inválida, no truena
+    if (isNaN(parsed.getTime())) return "—";
     return format(parsed, formatPattern);
   } catch (e) {
     return "—";
@@ -68,6 +67,8 @@ function safeFormatDistance(dateStr: any): string {
     let cleanStr = String(dateStr);
     if (cleanStr.includes('-') && cleanStr.split('-').length === 4) {
       cleanStr = cleanStr.substring(0, cleanStr.lastIndexOf('-'));
+    } else if (cleanStr.includes('+')) {
+      cleanStr = cleanStr.split('+')[0];
     }
     if (!cleanStr.endsWith('Z')) cleanStr += 'Z';
 
@@ -299,7 +300,8 @@ export default function TicketDetail() {
                           </span>
                         )}
                         <span className="text-xs text-muted-foreground ml-auto">
-                          {formatDistanceToNow(parseISO(entry.fecha_creacion), { addSuffix: true, locale: es })}
+                          {/* 🛡️ APLICADO: Formateo de distancia seguro */}
+                          {safeFormatDistance(entry.fecha_creacion)}
                         </span>
                       </div>
                       {entry.contenido && entry.tipo === "comentario" && (
@@ -443,18 +445,21 @@ export default function TicketDetail() {
                 </div>
                 <div className="flex justify-between">
                   <span>Creado</span>
-                  <span className="text-foreground">{format(parseISO(ticket.fecha_creacion), "dd/MM/yyyy HH:mm")}</span>
+                  {/* 🛡️ APLICADO: Formateo seguro de fechas */}
+                  <span className="text-foreground">{safeFormatDate(ticket.fecha_creacion)}</span>
                 </div>
                 {ticket.fecha_asignacion && (
                   <div className="flex justify-between">
                     <span>Asignado</span>
-                    <span className="text-foreground">{format(parseISO(ticket.fecha_asignacion), "dd/MM/yyyy HH:mm")}</span>
+                    {/* 🛡️ APLICADO: Formateo seguro de fechas */}
+                    <span className="text-foreground">{safeFormatDate(ticket.fecha_asignacion)}</span>
                   </div>
                 )}
                 {ticket.fecha_cierre && (
                   <div className="flex justify-between">
                     <span>Cerrado</span>
-                    <span className="text-foreground">{format(parseISO(ticket.fecha_cierre), "dd/MM/yyyy HH:mm")}</span>
+                    {/* 🛡️ APLICADO: Formateo seguro de fechas */}
+                    <span className="text-foreground">{safeFormatDate(ticket.fecha_cierre)}</span>
                   </div>
                 )}
               </div>
